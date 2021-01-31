@@ -17,7 +17,9 @@ public class ApiController {
 
     private final InquireService inquireService;
 
-    @GetMapping(value = "/api/inquire/most-amount", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/api/inquire/most-amount"
+            , consumes = MediaType.APPLICATION_JSON_VALUE
+            , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<List<AmountDto>>> inquireSumAmount() {
 
         List<AmountDto> sumAmount = inquireService.getMostAmountAccount(2018, 2019);
@@ -25,7 +27,9 @@ public class ApiController {
         return ResponseEntity.ok().body(ApiResponse.success(sumAmount));
     }
 
-    @GetMapping(value = "/api/inquire/no-tran", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/api/inquire/no-tran"
+            , consumes = MediaType.APPLICATION_JSON_VALUE
+            , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<List<AccountDto>>> inquireNoTransUser() {
 
         List<AccountDto> noTransUser = inquireService.getNoTransUser(2018, 2019);

@@ -21,7 +21,6 @@ public class InquireService {
 
     private final HistoryRepository historyRepository;
 
-
     private final AccountRepository accountRepository;
 
 
