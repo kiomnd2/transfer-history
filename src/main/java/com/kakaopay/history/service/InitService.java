@@ -9,6 +9,7 @@ import com.kakaopay.history.repository.HistoryRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,6 @@ public class InitService {
 
     private final HistoryRepository historyRepository;
 
-
     /**
      * 모든 csv데이터를 초기화 합니다.
      * @throws IOException
@@ -50,10 +50,10 @@ public class InitService {
 
         collectHistoryInfo();
 
-
     }
 
     protected void collectHistoryInfo() throws IOException {
+
         Resource historyResource = new ClassPathResource("데이터_거래내역.csv");
 
         List<History> historyList = Files.readAllLines(historyResource.getFile().toPath(), StandardCharsets.UTF_8)
@@ -62,13 +62,14 @@ public class InitService {
                 .map(line -> {
                     String[] splits = line.split(",");
                     //거래일자,계좌번호,거래번호,금액,수수료,취소여부
-                    Account acc = accountRepository.findById(splits[1])
+                    Account acc = accountRepository.findByAcctNo(splits[1])
                             .orElseThrow(RuntimeException::new);// 계좌번호
 
                     return History.builder()
                             .trDate(LocalDate.parse(splits[0], DateTimeFormatter.ofPattern("yyyyMMdd")))
                             .trNo(splits[2])
                             .amt(new BigDecimal(splits[3]))
+                            .account(acc)
                             .fee(new BigDecimal(splits[4]))
                             .isCnl((splits[5].equals("Y")))
                             .build();
@@ -77,6 +78,7 @@ public class InitService {
     }
 
     protected void saveAccountInfo() throws IOException {
+
         Resource accountResource = new ClassPathResource("데이터_계좌정보.csv");
 
         List<Account> accountList = Files.readAllLines(accountResource.getFile().toPath(), StandardCharsets.UTF_8)
@@ -112,7 +114,7 @@ public class InitService {
                             .brName(splits[1])
                             .build();
                 }).collect(Collectors.toList());
+
         branchRepository.saveAll(branchList);
     }
-
 }

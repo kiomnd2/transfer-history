@@ -59,14 +59,11 @@ public class History {
     @Column(name = "cancel")
     private boolean isCnl;
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     @Builder
-    public History(LocalDate trDate, String trNo, BigDecimal amt, BigDecimal fee, boolean isCnl) {
+    public History(LocalDate trDate, String trNo, Account account, BigDecimal amt, BigDecimal fee, boolean isCnl) {
         this.trDate = trDate;
         this.trNo = trNo;
+        this.account = account;
         this.amt = amt;
         this.fee = fee;
         this.isCnl = isCnl;

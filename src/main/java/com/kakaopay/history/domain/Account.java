@@ -17,10 +17,12 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Account {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     /**
      * 계좌 번호
      */
-    @Id
     @Column(name = "account_no")
     private String acctNo;
 
@@ -47,8 +49,4 @@ public class Account {
         this.branch = branch;
     }
 
-    public void addHistory(History history) {
-        history.setAccount(this);
-        this.historyList.add(history);
-    }
 }

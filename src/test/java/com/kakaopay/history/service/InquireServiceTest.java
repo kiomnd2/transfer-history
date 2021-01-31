@@ -1,0 +1,47 @@
+package com.kakaopay.history.service;
+
+import com.kakaopay.history.dto.AmountDto;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+class InquireServiceTest {
+
+    @Autowired
+    InquireService inquireService;
+
+    @Test
+    @DisplayName("연도를 입력받고, 각 연도별로 총합을 정렬하여 가장 높은 금액을 가진 계좌를 검증합니다")
+    //getMostAmountAccount
+    public void findMostAmountAccountListByYears() {
+        List<AmountDto> mostAmountAccount = inquireService.getMostAmountAccount(2018, 2019);
+
+
+        assertThat(mostAmountAccount.size()).isEqualTo(2);
+
+        assertThat(mostAmountAccount)
+                .extracting("year")
+                .containsExactly(2018, 2019);
+        assertThat(mostAmountAccount)
+                .extracting("sumAmt")
+                .containsExactly(
+                        BigDecimal.valueOf(5000000).setScale(2, RoundingMode.CEILING),
+                        BigDecimal.valueOf(29999000).setScale(2, RoundingMode.CEILING));
+        assertThat(mostAmountAccount)
+                .extracting("acctNo")
+                .containsExactly("11111114", "11111112");
+
+        assertThat(mostAmountAccount)
+                .extracting("name")
+                .containsExactly("테드", "에이스");
+    }
+}

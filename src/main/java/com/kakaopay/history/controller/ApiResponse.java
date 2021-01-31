@@ -1,5 +1,6 @@
 package com.kakaopay.history.controller;
 
+import com.kakaopay.history.code.Codes;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +9,15 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ApiResponse<T> {
 
+    private final String code;
+
     private final T body;
 
-    public static <T> ApiResponse<T> response (T body) {
-        return new ApiResponse<>(body);
+    public static <T> ApiResponse<T> success (T body) {
+        return new ApiResponse<>(Codes.S0000.code, body);
+    }
+
+    public static <T> ApiResponse<T> fail (T body) {
+        return new ApiResponse<>(Codes.E2000.code, body);
     }
 }
