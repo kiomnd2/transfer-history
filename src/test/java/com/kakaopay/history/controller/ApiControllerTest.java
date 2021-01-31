@@ -33,7 +33,7 @@ class ApiControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @DisplayName("")
+    @DisplayName("각 년도별로 가장 많은 거래를 한 고객을 추출합니다")
     @Test
     void request_and_get_mostAmount_account_byYears() throws Exception {
 
@@ -51,7 +51,19 @@ class ApiControllerTest {
                 .andExpect(jsonPath("body[1].name").value("에이스"))
                 .andExpect(jsonPath("body[1].acctNo").value("11111112"))
                 .andExpect(jsonPath("body[1].sumAmt")
-                        .value(Matchers.comparesEqualTo(29999000.0)))
+                        .value(Matchers.comparesEqualTo(29999000.0)));
+    }
+
+    @DisplayName("각 년도별로 거래가 없는 고객을 추출합니다")
+    @Test
+    void request_and_get_not_transfer_user_byYears() throws Exception {
+        mockMvc.perform(get("/api/inquire/no-tran")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("body[0].year").value(2019))
+                .andExpect(jsonPath("body[0].acctNo").value("11111114"))
+                .andExpect(jsonPath("body[0].acctNm").value("테드"))
         ;
     }
 

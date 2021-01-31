@@ -1,4 +1,4 @@
-package com.kakaopay.history.repository;
+package com.kakaopay.history.repository.history;
 
 import com.kakaopay.history.domain.History;
 import org.springframework.data.jpa.repository.JpaRepository;

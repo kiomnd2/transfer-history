@@ -1,5 +1,6 @@
 package com.kakaopay.history.service;
 
+import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,5 +44,23 @@ class InquireServiceTest {
         assertThat(mostAmountAccount)
                 .extracting("name")
                 .containsExactly("테드", "에이스");
+    }
+
+    @Test
+    public void findAccountListNotInByYears() {
+        List<AccountDto> noTransUser = inquireService.getNoTransUser(2018, 2019);
+
+        // 2019 년에 거래 안한고객 1명
+        assertThat(noTransUser.size()).isEqualTo(1);
+
+
+        assertThat(noTransUser)
+                .extracting("year")
+                .containsExactly(2019);
+        assertThat(noTransUser)
+                .extracting("acctNo")
+                .containsExactly("11111114");
+
+
     }
 }

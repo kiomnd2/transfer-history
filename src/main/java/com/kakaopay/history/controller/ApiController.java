@@ -1,5 +1,6 @@
 package com.kakaopay.history.controller;
 
+import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
 import com.kakaopay.history.service.InquireService;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +24,14 @@ public class ApiController {
 
         return ResponseEntity.ok().body(ApiResponse.success(sumAmount));
     }
+
+    @GetMapping(value = "/api/inquire/no-tran", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<List<AccountDto>>> inquireNoTransUser() {
+
+        List<AccountDto> noTransUser = inquireService.getNoTransUser(2018, 2019);
+
+        return ResponseEntity.ok().body(ApiResponse.success(noTransUser));
+    }
+
 
 }

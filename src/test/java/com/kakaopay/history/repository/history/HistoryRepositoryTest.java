@@ -1,7 +1,8 @@
-package com.kakaopay.history.repository;
+package com.kakaopay.history.repository.history;
 
+import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
-import org.junit.jupiter.api.BeforeEach;
+import com.kakaopay.history.repository.history.HistoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class HistoryRepositoryImplTest {
+class HistoryRepositoryTest {
 
     @Autowired
     HistoryRepository historyRepository;
@@ -68,5 +69,18 @@ class HistoryRepositoryImplTest {
                 .containsExactly(
                         BigDecimal.valueOf(99500).setScale(2, RoundingMode.CEILING),
                         BigDecimal.valueOf(29999000).setScale(2, RoundingMode.CEILING));
+    }
+
+    @Test
+    public void findAccountListByYear() {
+        List<String> accountList1 = historyRepository.findAccountListByYear(2018);
+
+        assertThat(accountList1)
+                .containsExactly("11111111", "11111112", "11111114");
+
+        List<String> accountList2 = historyRepository.findAccountListByYear(2019);
+
+        assertThat(accountList2)
+                .containsExactly("11111111", "11111112");
     }
 }
