@@ -10,4 +10,6 @@ public interface HistoryRepositoryCustom {
     List<AmountDto> findByYearGroupByAccount(int year);
 
     List<String> findAccountListByYear(int year);
+
+    List<Integer> findYearsList();
 }

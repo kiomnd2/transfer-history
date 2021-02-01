@@ -56,14 +56,37 @@ class ApiControllerTest {
 
     @DisplayName("각 년도별로 거래가 없는 고객을 추출합니다")
     @Test
-    void request_and_get_not_transfer_user_byYears() throws Exception {
+    void request_and_get_not_transfer_user_per_Years() throws Exception {
         mockMvc.perform(get("/api/inquire/no-tran")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("body[0].year").value(2019))
                 .andExpect(jsonPath("body[0].acctNo").value("11111114"))
-                .andExpect(jsonPath("body[0].acctNm").value("테드"))
+                .andExpect(jsonPath("body[0].acctNm").value("테드"));
+    }
+
+
+    @DisplayName("브렌치별 거래금액을 추출합니다")
+    @Test
+    void request_and_get_branch_amount_per_Years() throws Exception {
+        mockMvc.perform(get("/api/inquire/branch")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("body[0].year").value(2018))
+                .andExpect(jsonPath("body[0].dataList[0].brName").value("분당점"))
+                .andExpect(jsonPath("body[0].dataList[0].brCode").value("B"))
+                .andExpect(jsonPath("body[0].dataList[0].sumAmt").value(5000000))
+                .andExpect(jsonPath("body[0].dataList[1].brName").value("판교점"))
+                .andExpect(jsonPath("body[0].dataList[1].brCode").value("A"))
+                .andExpect(jsonPath("body[0].dataList[1].sumAmt").value(2498900))
+
+                .andExpect(jsonPath("body[1].year").value(2019))
+                .andExpect(jsonPath("body[1].dataList[0].brName").value("판교점"))
+                .andExpect(jsonPath("body[1].dataList[0].brCode").value("A"))
+                .andExpect(jsonPath("body[1].dataList[0].sumAmt").value(30098500))
+
         ;
     }
 

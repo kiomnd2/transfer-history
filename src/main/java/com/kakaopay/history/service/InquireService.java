@@ -2,7 +2,11 @@ package com.kakaopay.history.service;
 
 import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
+import com.kakaopay.history.dto.BranchDto;
+import com.kakaopay.history.dto.BranchListDto;
 import com.kakaopay.history.repository.account.AccountRepository;
+import com.kakaopay.history.repository.branch.BranchRepository;
+import com.kakaopay.history.repository.branch.SearchCondition;
 import com.kakaopay.history.repository.history.HistoryRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +27,7 @@ public class InquireService {
 
     private final AccountRepository accountRepository;
 
-
+    private final BranchRepository branchRepository;
 
     /**
      * 연도별로 거래 총량이 가장 높은 거래유저 정보를 가져옵니다
@@ -58,6 +62,29 @@ public class InquireService {
             List<String> accountListByYear = historyRepository.findAccountListByYear(year);
             List<AccountDto> accountList = accountRepository.findByAcctNoNotIn(year, accountListByYear);
             result.addAll(accountList);
+        }
+
+        return result;
+    }
+
+
+    /**
+     * 지점별 총 금액을 높은순으로 정렬합니다.
+     * @return
+     */
+    public List<BranchListDto> getBranchAmount() {
+
+        List<BranchListDto> result = new ArrayList<>();
+
+        List<Integer> yearsList = historyRepository.findYearsList();
+
+        SearchCondition condition = new SearchCondition();
+        for (Integer years : yearsList) {
+            condition.setYear(years);
+            List<BranchDto> branchDtoList = branchRepository.findBranchByBrCodeOrYear(condition);
+            branchDtoList.sort(Comparator.comparing(BranchDto::getSumAmt).reversed()); // 큰 순으로 정렬
+
+            result.add(BranchListDto.builder().year(years).dataList(branchDtoList).build());
         }
 
         return result;

@@ -39,9 +39,6 @@ public class Account {
     @JoinColumn(name = "branch_id")
     private Branch branch;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-    private final List<History> historyList = new ArrayList<>();
-
     @Builder
     public Account(String acctNo, String acctNm, Branch branch) {
         this.acctNo = acctNo;

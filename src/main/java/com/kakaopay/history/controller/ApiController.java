@@ -2,6 +2,8 @@ package com.kakaopay.history.controller;
 
 import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
+import com.kakaopay.history.dto.BranchDto;
+import com.kakaopay.history.dto.BranchListDto;
 import com.kakaopay.history.service.InquireService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -37,5 +39,14 @@ public class ApiController {
         return ResponseEntity.ok().body(ApiResponse.success(noTransUser));
     }
 
+    @GetMapping(value = "/api/inquire/branch"
+            , consumes = MediaType.APPLICATION_JSON_VALUE
+            , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<List<BranchListDto>>> inquireBranchAmount() {
+
+        List<BranchListDto> branchAmount = inquireService.getBranchAmount();
+
+        return ResponseEntity.ok().body(ApiResponse.success(branchAmount));
+    }
 
 }

@@ -2,6 +2,8 @@ package com.kakaopay.history.service;
 
 import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
+import com.kakaopay.history.dto.BranchDto;
+import com.kakaopay.history.dto.BranchListDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +64,36 @@ class InquireServiceTest {
                 .containsExactly("11111114");
 
 
+    }
+
+    @Test
+    public void findAmountGroupedByBranch() {
+        List<BranchListDto> branchAmount = inquireService.getBranchAmount();
+
+        assertThat(branchAmount)
+                .extracting("year")
+                .containsExactly(2018, 2019);
+
+        BranchListDto branchListDto = branchAmount.get(0);
+
+        List<BranchDto> dataList = branchListDto.getDataList();
+
+        // 2018
+        assertThat(dataList)
+                .extracting("brName")
+                .containsExactly("분당점", "판교점");
+
+
+        assertThat(dataList)
+                .extracting("brCode")
+                .containsExactly("B", "A");
+
+
+        assertThat(dataList)
+                .extracting("sumAmt")
+                .containsExactly(
+                        BigDecimal.valueOf(5000000).setScale(2, RoundingMode.CEILING),
+                        BigDecimal.valueOf(2498900).setScale(2, RoundingMode.CEILING)
+                );
     }
 }

@@ -27,9 +27,8 @@ public class BranchRepositoryImpl implements BranchRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-
     @Override
-    public List<BranchDto> findBranchByBrCode(String brCode) {
+    public List<BranchDto> findBranchByBrCodeOrYear(SearchCondition condition) {
         return queryFactory
                 .select(Projections.constructor(
                         BranchDto.class,
@@ -41,7 +40,8 @@ public class BranchRepositoryImpl implements BranchRepositoryCustom {
                 .join(history.account(), account)
                 .join(account.branch(), branch)
                 .where(history.isCnl.isFalse(),
-                        branchEq(brCode)) // 연도가 일치하고 취소된 거래가 아니여야 함
+                        branchEq(condition.getBrCode()),
+                        yearEq(condition.getYear()))
                 .groupBy(branch)
                 .fetch();
     }
@@ -49,6 +49,9 @@ public class BranchRepositoryImpl implements BranchRepositoryCustom {
 
     private BooleanExpression branchEq(String brCode) { // Predicate 보다 booleanExpression 사용
         return hasText(brCode) ? branch.brCode.eq(brCode) : null;
+    }
+    private BooleanExpression yearEq(Integer year) { // Predicate 보다 booleanExpression 사용
+        return year != null ? history.trDate.year().eq(year) : null;
     }
 
 }

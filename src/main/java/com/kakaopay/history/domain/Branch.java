@@ -33,9 +33,6 @@ public class Branch {
     @Column(name = "branch_name")
     private String brName;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "branch")
-    private final List<Account> accountList = new ArrayList<>();
-
     @Builder
     public Branch(String brCode, String brName) {
         this.brCode = brCode;

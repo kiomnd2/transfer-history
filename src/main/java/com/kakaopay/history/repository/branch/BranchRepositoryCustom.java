@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface BranchRepositoryCustom {
 
-        List<BranchDto> findBranchByBrCode(String brCode);
+    List<BranchDto> findBranchByBrCodeOrYear(SearchCondition condition);
+
 }

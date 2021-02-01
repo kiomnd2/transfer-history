@@ -53,4 +53,15 @@ public class HistoryRepositoryImpl implements HistoryRepositoryCustom{
                 .where(history.trDate.year().eq(year), history.isCnl.isFalse())
                 .fetch();
     }
+
+
+    @Override
+    public List<Integer> findYearsList() {
+        return queryFactory
+                .select(history.trDate.year())
+                .distinct()
+                .from(history)
+                .orderBy(history.trDate.year().asc())
+                .fetch();
+    }
 }
