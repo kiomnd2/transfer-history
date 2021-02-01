@@ -72,6 +72,7 @@ public class InquireService {
      * 지점별 총 금액을 높은순으로 정렬합니다.
      * @return
      */
+    @Transactional(readOnly = true)
     public List<BranchListDto> getBranchAmount() {
 
         List<BranchListDto> result = new ArrayList<>();
@@ -89,6 +90,8 @@ public class InquireService {
 
         return result;
     }
+
+
 
 
 }

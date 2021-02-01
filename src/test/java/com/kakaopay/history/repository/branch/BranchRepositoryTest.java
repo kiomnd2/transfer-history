@@ -68,7 +68,7 @@ class BranchRepositoryTest {
     public void findBranchByCode() {
         SearchCondition condition = new SearchCondition();
 
-        condition.setBrCode("A");
+        condition.getBrCodeList().add("A");
         List<BranchDto> branchByYears = branchRepository.findBranchByBrCodeOrYear(condition);
         assertThat(branchByYears)
                 .extracting("brName")

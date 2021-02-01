@@ -35,7 +35,7 @@ class ApiControllerTest {
 
     @DisplayName("각 년도별로 가장 많은 거래를 한 고객을 추출합니다")
     @Test
-    void request_and_get_mostAmount_account_byYears() throws Exception {
+    void request_and_get_mostAmount_account_per_Years() throws Exception {
 
         mockMvc.perform(get("/api/inquire/most-amount")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))

@@ -40,15 +40,15 @@ public class BranchRepositoryImpl implements BranchRepositoryCustom {
                 .join(history.account(), account)
                 .join(account.branch(), branch)
                 .where(history.isCnl.isFalse(),
-                        branchEq(condition.getBrCode()),
+                        branchEq(condition.getBrCodeList()),
                         yearEq(condition.getYear()))
                 .groupBy(branch)
                 .fetch();
     }
 
 
-    private BooleanExpression branchEq(String brCode) { // Predicate 보다 booleanExpression 사용
-        return hasText(brCode) ? branch.brCode.eq(brCode) : null;
+    private BooleanExpression branchEq(List<String> brCodeList) { // Predicate 보다 booleanExpression 사용
+        return !brCodeList.isEmpty() ? branch.brCode.in(brCodeList) : null;
     }
     private BooleanExpression yearEq(Integer year) { // Predicate 보다 booleanExpression 사용
         return year != null ? history.trDate.year().eq(year) : null;

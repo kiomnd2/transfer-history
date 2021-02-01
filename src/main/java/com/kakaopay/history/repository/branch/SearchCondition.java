@@ -3,11 +3,14 @@ package com.kakaopay.history.repository.branch;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 public class SearchCondition {
 
+    @Setter
     private Integer year;
 
-    private String brCode;
+    private final List<String> brCodeList = new ArrayList<>();
 }
