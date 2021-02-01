@@ -4,7 +4,7 @@ import com.kakaopay.history.domain.Account;
 import com.kakaopay.history.domain.Branch;
 import com.kakaopay.history.domain.History;
 import com.kakaopay.history.repository.account.AccountRepository;
-import com.kakaopay.history.repository.BranchRepository;
+import com.kakaopay.history.repository.branch.BranchRepository;
 import com.kakaopay.history.repository.history.HistoryRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
