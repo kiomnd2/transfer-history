@@ -1,11 +1,10 @@
 package com.kakaopay.history.repository.account;
 
 import com.kakaopay.history.dto.AccountDto;
-import com.kakaopay.history.dto.AmountDto;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +18,7 @@ class AccountRepositoryTest {
     @Autowired
     AccountRepository accountRepository;
 
+    @DisplayName("거래가 없는 계좌를 반환합니다.")
     @Test
     public void findAccountListNotIn() {
 
@@ -27,12 +27,13 @@ class AccountRepositoryTest {
         accList.add("11111114");
 
 
+        final int year = 2018;
         List<AccountDto> accountDtoList =
-                accountRepository.findByAcctNoNotIn(2018, accList);
+                accountRepository.findByAcctNoNotIn(year, accList);
 
         assertThat(accountDtoList)
                 .extracting("year")
-                .containsOnly(2018);
+                .containsOnly(year);
         assertThat(accountDtoList)
                 .extracting("acctNm")
                 .containsOnly("제이");

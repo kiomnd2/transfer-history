@@ -14,7 +14,6 @@ import java.math.RoundingMode;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class InquireServiceTest {
@@ -23,17 +22,19 @@ class InquireServiceTest {
     InquireService inquireService;
 
     @Test
-    @DisplayName("연도를 입력받고, 각 연도별로 총합을 정렬하여 가장 높은 금액을 가진 계좌를 검증합니다")
+    @DisplayName("연도별로 총합을 정렬하여 가장 높은 금액을 가진 계좌를 검증합니다")
     //getMostAmountAccount
     public void findMostAmountAccountListByYears() {
-        List<AmountDto> mostAmountAccount = inquireService.getMostAmountAccount(2018, 2019);
+        final int year1 = 2018;
+        final int year2 = 2019;
+        List<AmountDto> mostAmountAccount = inquireService.getMostAmountAccount(year1, year2);
 
 
         assertThat(mostAmountAccount.size()).isEqualTo(2);
 
         assertThat(mostAmountAccount)
                 .extracting("year")
-                .containsExactly(2018, 2019);
+                .containsExactly(year1, year2);
         assertThat(mostAmountAccount)
                 .extracting("sumAmt")
                 .containsExactly(
@@ -48,9 +49,12 @@ class InquireServiceTest {
                 .containsExactly("테드", "에이스");
     }
 
+    @DisplayName("연도별로 연도에 거래가 없는 유저 리스트를 반환합니다")
     @Test
     public void findAccountListNotInByYears() {
-        List<AccountDto> noTransUser = inquireService.getNoTransUser(2018, 2019);
+        final int year1 = 2018;
+        final int year2 = 2019;
+        List<AccountDto> noTransUser = inquireService.getNoTransUser(year1, year2);
 
         // 2019 년에 거래 안한고객 1명
         assertThat(noTransUser.size()).isEqualTo(1);
@@ -58,7 +62,7 @@ class InquireServiceTest {
 
         assertThat(noTransUser)
                 .extracting("year")
-                .containsExactly(2019);
+                .containsExactly(year2);
         assertThat(noTransUser)
                 .extracting("acctNo")
                 .containsExactly("11111114");
@@ -66,6 +70,7 @@ class InquireServiceTest {
 
     }
 
+    @DisplayName("연도별 지점의 총 합계금액을 금액순으로 정렬합니다")
     @Test
     public void findAmountGroupedByBranch() {
         List<BranchListDto> branchAmount = inquireService.getBranchAmount();
@@ -97,10 +102,19 @@ class InquireServiceTest {
                 );
     }
 
+    @DisplayName("지점을 입력받고 해당지점의 총거래금액을 계산합니다.")
     @Test
     public void getBranchByBrCode() {
 
-        BranchDto dto = inquireService.getBranch("B");
+        final String brCode = "A";
+        
+        BranchDto dto = inquireService.getBranch(brCode);
+
+        assertThat(dto.getBrCode()).isEqualTo(brCode);
+        assertThat(dto.getBrName()).isEqualTo("판교점");
+        assertThat(dto.getSumAmt()).isEqualByComparingTo(
+                BigDecimal.valueOf(32597400).setScale(2, RoundingMode.CEILING));
+
 
     }
 }

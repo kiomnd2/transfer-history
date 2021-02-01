@@ -1,6 +1,7 @@
 package com.kakaopay.history.repository.branch;
 
 import com.kakaopay.history.dto.BranchDto;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +11,6 @@ import java.math.RoundingMode;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BranchRepositoryTest {
@@ -19,11 +19,14 @@ class BranchRepositoryTest {
     BranchRepository branchRepository;
 
 
+    @DisplayName("연도를 입력받고, 해당 연도의 지점별 총금액을 반환합니다.")
     @Test
     public void findBranchByYears() {
 
+        final int year = 2018;
+
         SearchCondition condition = new SearchCondition();
-        condition.setYear(2018);
+        condition.setYear(year);
 
         List<BranchDto> branchByYears = branchRepository.findBranchByBrCodeOrYear(condition);
         assertThat(branchByYears)
@@ -42,6 +45,7 @@ class BranchRepositoryTest {
                 );
     }
 
+    @DisplayName("모든 지점의 정보를 반환합니다.")
     @Test
     public void findBranch() {
         SearchCondition condition = new SearchCondition();
@@ -64,11 +68,13 @@ class BranchRepositoryTest {
     }
 
 
+    @DisplayName("지점을 입력받고, 해당 지점의 총거래금액 정보를 반환합니다.")
     @Test
     public void findBranchByCode() {
         SearchCondition condition = new SearchCondition();
 
         condition.getBrCodeList().add("A");
+
         List<BranchDto> branchByYears = branchRepository.findBranchByBrCodeOrYear(condition);
         assertThat(branchByYears)
                 .extracting("brName")

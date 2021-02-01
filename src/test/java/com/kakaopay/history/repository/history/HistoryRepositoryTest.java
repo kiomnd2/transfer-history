@@ -1,8 +1,6 @@
 package com.kakaopay.history.repository.history;
 
-import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
-import com.kakaopay.history.repository.history.HistoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +21,18 @@ class HistoryRepositoryTest {
     HistoryRepository historyRepository;
 
     @Test
-    @DisplayName("연도의 유저별로 합계금액을 구합니다")
+    @DisplayName("연도의 유저별로 총거래 합계금액을 구합니다")
     public void findSumAmountGroupedAccount() {
         // 2018년의 결고를 가져와봄
-        List<AmountDto> byYearGroupByAccountIn2018 = historyRepository.findByYearGroupByAccount(2018);
+        final int year = 2018;
+        List<AmountDto> byYearGroupByAccountIn2018 = historyRepository.findByYearGroupByAccount(year);
 
         // 11111111 , 1499000
         // 11111112 , 999900
         // 11111114 , 5000000
         assertThat(byYearGroupByAccountIn2018)
                 .extracting("year")
-                .containsOnly(2018);
+                .containsOnly(year);
         assertThat(byYearGroupByAccountIn2018)
                 .extracting("name")
                 .containsExactly("제이", "에이스", "테드");
@@ -71,9 +70,12 @@ class HistoryRepositoryTest {
                         BigDecimal.valueOf(29999000).setScale(2, RoundingMode.CEILING));
     }
 
+    @DisplayName("연도별 거래 계좌리스트를 반환합니다.")
     @Test
     public void findAccountListByYear() {
-        List<String> accountList1 = historyRepository.findAccountListByYear(2018);
+        final int year = 2018;
+
+        List<String> accountList1 = historyRepository.findAccountListByYear(year);
 
         assertThat(accountList1)
                 .containsExactly("11111111", "11111112", "11111114");

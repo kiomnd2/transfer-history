@@ -12,10 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -88,7 +84,7 @@ class ApiControllerTest {
                 .andExpect(jsonPath("body[1].dataList[0].sumAmt").value(30098500));
     }
 
-    @DisplayName("해당 브랜치의 총 금액을 추출합니다")
+    @DisplayName("입력받은 지점의 총 금액을 추출합니다")
     @Test
     void request_and_get_amount() throws Exception {
 
@@ -99,7 +95,9 @@ class ApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("code").value(Codes.S0000.code))
+                .andExpect(jsonPath("body.brName").value("판교점"))
+                .andExpect(jsonPath("body.sumAmt").value(32597400));
 
-        ;
     }
 }
