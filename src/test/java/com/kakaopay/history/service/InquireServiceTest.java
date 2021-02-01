@@ -96,4 +96,11 @@ class InquireServiceTest {
                         BigDecimal.valueOf(2498900).setScale(2, RoundingMode.CEILING)
                 );
     }
+
+    @Test
+    public void getBranchByBrCode() {
+
+        BranchDto dto = inquireService.getBranch("B");
+
+    }
 }

@@ -37,7 +37,7 @@ class ApiControllerTest {
     @Test
     void request_and_get_mostAmount_account_per_Years() throws Exception {
 
-        mockMvc.perform(get("/api/inquire/most-amount")
+        mockMvc.perform(post("/api/inquire/most-amount")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -57,7 +57,7 @@ class ApiControllerTest {
     @DisplayName("각 년도별로 거래가 없는 고객을 추출합니다")
     @Test
     void request_and_get_not_transfer_user_per_Years() throws Exception {
-        mockMvc.perform(get("/api/inquire/no-tran")
+        mockMvc.perform(post("/api/inquire/no-trans")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -67,10 +67,10 @@ class ApiControllerTest {
     }
 
 
-    @DisplayName("브렌치별 거래금액을 추출합니다")
+    @DisplayName("지점별 거래금액을 추출합니다")
     @Test
     void request_and_get_branch_amount_per_Years() throws Exception {
-        mockMvc.perform(get("/api/inquire/branch")
+        mockMvc.perform(post("/api/inquire/branch-amount-list")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -85,9 +85,21 @@ class ApiControllerTest {
                 .andExpect(jsonPath("body[1].year").value(2019))
                 .andExpect(jsonPath("body[1].dataList[0].brName").value("판교점"))
                 .andExpect(jsonPath("body[1].dataList[0].brCode").value("A"))
-                .andExpect(jsonPath("body[1].dataList[0].sumAmt").value(30098500))
+                .andExpect(jsonPath("body[1].dataList[0].sumAmt").value(30098500));
+    }
+
+    @DisplayName("해당 브랜치의 총 금액을 추출합니다")
+    @Test
+    void request_and_get_amount() throws Exception {
+
+        ApiRequest request = new ApiRequest("A");
+
+        mockMvc.perform(post("/api/inquire/branch-amount")
+                .content(objectMapper.writeValueAsBytes(request))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk())
 
         ;
     }
-
 }

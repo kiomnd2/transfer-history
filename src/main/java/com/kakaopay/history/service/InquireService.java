@@ -4,6 +4,7 @@ import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
 import com.kakaopay.history.dto.BranchDto;
 import com.kakaopay.history.dto.BranchListDto;
+import com.kakaopay.history.exception.EmptyResultException;
 import com.kakaopay.history.repository.account.AccountRepository;
 import com.kakaopay.history.repository.branch.BranchRepository;
 import com.kakaopay.history.repository.branch.SearchCondition;
@@ -92,6 +93,28 @@ public class InquireService {
     }
 
 
+    /**
+     * 지점코드로 총 거래 금액을 조회합니다.
+     * @param brCode 지점코드
+     * @return 거래금액을 포함한 지점 정보
+     */
+    @Transactional(readOnly = true)
+    public BranchDto getBranch(String brCode) {
 
+        SearchCondition searchCondition = new SearchCondition();
+        List<String> brCodeList = searchCondition.getBrCodeList();
+        brCodeList.add(brCode);
+        if ("A".equals(brCode)) {
+            brCodeList.add("B");
+        }
 
+        List<BranchDto> branchDtoList = branchRepository.findBranchByBrCodeOrYear(searchCondition);
+
+        // 비어 있으면 없음
+        if (branchDtoList.isEmpty()) {
+            throw new EmptyResultException();
+        }
+
+        return branchDtoList.get(0);
+    }
 }

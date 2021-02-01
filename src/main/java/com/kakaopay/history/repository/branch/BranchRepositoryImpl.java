@@ -47,7 +47,7 @@ public class BranchRepositoryImpl implements BranchRepositoryCustom {
     }
 
 
-    private BooleanExpression branchEq(List<String> brCodeList) { // Predicate 보다 booleanExpression 사용
+    private BooleanExpression branchEq(List<String> brCodeList) {
         return !brCodeList.isEmpty() ? branch.brCode.in(brCodeList) : null;
     }
     private BooleanExpression yearEq(Integer year) { // Predicate 보다 booleanExpression 사용
