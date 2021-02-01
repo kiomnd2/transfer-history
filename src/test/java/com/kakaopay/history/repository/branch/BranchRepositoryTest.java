@@ -18,13 +18,14 @@ class BranchRepositoryTest {
 
     @Test
     public void findBranchByYears() {
-        List<BranchDto> branchByYears = branchRepository.findBranchByYears(2018);
+        List<BranchDto> branchByYears = branchRepository.findBranchByBrCode("B");
 
         for (BranchDto branchByYear : branchByYears) {
             System.out.println("branchByYear.getBrCode() = " + branchByYear.getBrCode());
-            System.out.println("branchByYear.getBrName() = " + branchByYear.getBrName());
             System.out.println("branchByYear.getSumAmt() = " + branchByYear.getSumAmt());
         }
+
+
     }
 
 }

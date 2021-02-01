@@ -6,10 +6,12 @@ import com.kakaopay.history.domain.QBranch;
 import com.kakaopay.history.domain.QHistory;
 import com.kakaopay.history.dto.BranchDto;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 import static com.kakaopay.history.domain.QAccount.*;
 import static com.kakaopay.history.domain.QBranch.*;
 import static com.kakaopay.history.domain.QHistory.*;
+import static org.springframework.util.StringUtils.*;
 
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,8 +27,9 @@ public class BranchRepositoryImpl implements BranchRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+
     @Override
-    public List<BranchDto> findBranchByYears(int year) {
+    public List<BranchDto> findBranchByBrCode(String brCode) {
         return queryFactory
                 .select(Projections.constructor(
                         BranchDto.class,
@@ -36,8 +40,15 @@ public class BranchRepositoryImpl implements BranchRepositoryCustom {
                 .from(history)
                 .join(history.account(), account)
                 .join(account.branch(), branch)
-                .where(history.trDate.year().eq(year), history.isCnl.isFalse()) // 연도가 일치하고 취소된 거래가 아니여야 함
+                .where(history.isCnl.isFalse(),
+                        branchEq(brCode)) // 연도가 일치하고 취소된 거래가 아니여야 함
                 .groupBy(branch)
                 .fetch();
     }
+
+
+    private BooleanExpression branchEq(String brCode) { // Predicate 보다 booleanExpression 사용
+        return hasText(brCode) ? branch.brCode.eq(brCode) : null;
+    }
+
 }
