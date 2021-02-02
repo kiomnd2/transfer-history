@@ -34,7 +34,7 @@ class ApiControllerTest {
     @Test
     void request_and_get_mostAmount_account_per_Years() throws Exception {
 
-        mockMvc.perform(post("/api/inquire/most-amount")
+        mockMvc.perform(post("/api/inquire/amount")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -54,7 +54,7 @@ class ApiControllerTest {
     @DisplayName("각 년도별로 거래가 없는 고객을 추출합니다")
     @Test
     void request_and_get_not_transfer_user_per_Years() throws Exception {
-        mockMvc.perform(post("/api/inquire/no-trans")
+        mockMvc.perform(post("/api/inquire/no/deal/account")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -67,7 +67,7 @@ class ApiControllerTest {
     @DisplayName("지점별 거래금액을 추출합니다")
     @Test
     void request_and_get_branch_amount_per_Years() throws Exception {
-        mockMvc.perform(post("/api/inquire/branch-amount-list")
+        mockMvc.perform(post("/api/inquire/branch/list")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -91,7 +91,7 @@ class ApiControllerTest {
 
         ApiRequest request = new ApiRequest("A");
 
-        mockMvc.perform(post("/api/inquire/branch-amount")
+        mockMvc.perform(post("/api/inquire/branch")
                 .content(objectMapper.writeValueAsBytes(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
@@ -108,7 +108,7 @@ class ApiControllerTest {
 
         ApiRequest request = new ApiRequest("B");
 
-        mockMvc.perform(post("/api/inquire/branch-amount")
+        mockMvc.perform(post("/api/inquire/branch")
                 .content(objectMapper.writeValueAsBytes(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())

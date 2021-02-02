@@ -46,7 +46,7 @@
 #### 4.1 연도별 가장 높은거래 금액을 가진 고객
 * Request
 ~~~
-request(POST) : http://localhost:8080/api/inquire/most-amount
+request(POST) : http://localhost:8080/api/inquire/amount
 Content-Type: application/json
 ~~~
 * Response
@@ -73,7 +73,7 @@ Content-Type: application/json
 #### 4.2 거래가 없는 고객 추출
 * Request
 ~~~
-request(POST) : http://localhost:8080/api/inquire/no-trans
+request(POST) : http://localhost:8080/api/inquire/no/deal/account
 Content-Type: application/json
 ~~~
 * Response
@@ -118,7 +118,7 @@ Content-Type: application/json
 #### 4.3 연도별 관리점별 합계
 * Request
 ~~~
-request(POST) : http://localhost:8080/api/inquire/branch-amount-list
+request(POST) : http://localhost:8080/api/inquire/branch/list
 Content-Type: application/json
 ~~~
 * Response
@@ -193,7 +193,7 @@ Content-Type: application/json
 #### 4.4 지점별 합계금액 ( 성공 )
 * Request
 ~~~
-request(POSt) : http://localhost:8080/api/inquire/branch-amount
+request(POSt) : http://localhost:8080/api/inquire/branch
 Content-Type: application/json
 input :
 {
@@ -215,7 +215,7 @@ input :
 #### 4.5 지점별 합계금액 ( 실패 )
 * Request
 ~~~
-request(POSt) : http://localhost:8080/api/inquire/branch-amount
+request(POSt) : http://localhost:8080/api/inquire/branch
 Content-Type: application/json
 input : 
 {

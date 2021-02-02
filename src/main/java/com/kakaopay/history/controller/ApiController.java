@@ -9,7 +9,6 @@ import com.kakaopay.history.service.InquireService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +23,7 @@ public class ApiController {
     private final InquireService inquireService;
 
 
-    @PostMapping(value = "/api/inquire/most-amount",
+    @PostMapping(value = "/api/inquire/amount",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<List<AmountDto>>> inquireSumAmount() {
@@ -34,7 +33,7 @@ public class ApiController {
         return ResponseEntity.ok().body(ApiResponse.success(sumAmount));
     }
 
-    @PostMapping(value = "/api/inquire/no-trans",
+    @PostMapping(value = "/api/inquire/no/deal/account",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<List<AccountDto>>> inquireNoTransUser() {
@@ -45,7 +44,7 @@ public class ApiController {
     }
 
 
-    @PostMapping(value = "/api/inquire/branch-amount-list",
+    @PostMapping(value = "/api/inquire/branch/list",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<List<BranchListDto>>> inquireBranchAmountList() {
@@ -55,7 +54,7 @@ public class ApiController {
         return ResponseEntity.ok().body(ApiResponse.success(branchAmount));
     }
 
-    @PostMapping(value = "/api/inquire/branch-amount",
+    @PostMapping(value = "/api/inquire/branch",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<BranchDto>> inquireBranchAmount(@RequestBody @Valid ApiRequest apiRequest) {

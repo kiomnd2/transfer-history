@@ -28,8 +28,8 @@ public class InquireService {
 
     /**
      * 연도별로 거래 총량이 가장 높은 거래유저 정보를 가져옵니다
-     * @param years
-     * @return
+     * @param years 조회하고자 하는 연도 리스트
+     * @return 거래 금액 정보
      */
     @Transactional(readOnly = true)
     public List<AmountDto> getMostAmountAccount(int... years) {
@@ -46,7 +46,7 @@ public class InquireService {
     /**
      * 연도별로 거래가 없는 고객을 추출합니다
      * @param years 조회하고자 하는 연도 리스트
-     * @return
+     * @return 계좌 정보
      */
     @Transactional(readOnly = true)
     public List<AccountDto> getNoTransUser(int... years) {
@@ -64,7 +64,7 @@ public class InquireService {
 
     /**
      * 지점별 총 금액을 높은순으로 정렬합니다.
-     * @return
+     * @return 연도별 지점 정보 리스트
      */
     @Transactional(readOnly = true)
     public List<BranchListDto> getBranchAmount() {
