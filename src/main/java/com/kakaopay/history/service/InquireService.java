@@ -5,10 +5,7 @@ import com.kakaopay.history.dto.AmountDto;
 import com.kakaopay.history.dto.BranchDto;
 import com.kakaopay.history.dto.BranchListDto;
 import com.kakaopay.history.exception.EmptyResultException;
-import com.kakaopay.history.repository.account.AccountRepository;
-import com.kakaopay.history.repository.branch.BranchRepository;
 import com.kakaopay.history.repository.branch.SearchCondition;
-import com.kakaopay.history.repository.history.HistoryRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -24,11 +20,11 @@ import java.util.List;
 @Service
 public class InquireService {
 
-    private final HistoryRepository historyRepository;
+    private final HistoryService historyService;
 
-    private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
-    private final BranchRepository branchRepository;
+    private final BranchService branchService;
 
     /**
      * 연도별로 거래 총량이 가장 높은 거래유저 정보를 가져옵니다
@@ -41,11 +37,9 @@ public class InquireService {
         List<AmountDto> result = new ArrayList<>();
         // 연도별로 유저별 총 거래정보를 가져옴
         for (int year : years) {
-            List<AmountDto> accountList = historyRepository.findByYearGroupByAccount(year);
-            accountList.sort(Comparator.comparing(AmountDto::getSumAmt).reversed()); // 유저별 오름차순 정렬
+            List<AmountDto> accountList = historyService.getSortedAmountList(year);
             result.add(accountList.get(0)); // 첫번째 리스트 담음
         }
-
         return result;
     }
 
@@ -60,11 +54,10 @@ public class InquireService {
         List<AccountDto> result = new ArrayList<>();
 
         for (int year : years) {
-            List<String> accountListByYear = historyRepository.findAccountListByYear(year);
-            List<AccountDto> accountList = accountRepository.findByAcctNoNotIn(year, accountListByYear);
-            result.addAll(accountList);
+            List<String> accountList = historyService.getAccountList(year);
+            List<AccountDto> filteredAccount = accountService.getFilteredAccount(year, accountList);
+            result.addAll(filteredAccount);
         }
-
         return result;
     }
 
@@ -78,15 +71,14 @@ public class InquireService {
 
         List<BranchListDto> result = new ArrayList<>();
 
-        List<Integer> yearsList = historyRepository.findYearsList();
+        List<Integer> yearsList = historyService.getYearsList();
 
         SearchCondition condition = new SearchCondition();
-        for (Integer years : yearsList) {
-            condition.setYear(years);
-            List<BranchDto> branchDtoList = branchRepository.findBranchByBrCodeOrYear(condition);
-            branchDtoList.sort(Comparator.comparing(BranchDto::getSumAmt).reversed()); // 큰 순으로 정렬
 
-            result.add(BranchListDto.builder().year(years).dataList(branchDtoList).build());
+        for (Integer year : yearsList) {
+            condition.setYear(year);
+            List<BranchDto> branchDtoList = branchService.getSortedBranchList(condition);
+            result.add(BranchListDto.builder().year(year).dataList(branchDtoList).build());
         }
 
         return result;
@@ -104,11 +96,13 @@ public class InquireService {
         SearchCondition searchCondition = new SearchCondition();
         List<String> brCodeList = searchCondition.getBrCodeList();
         brCodeList.add(brCode);
+
+        // A코드와 B코드는 통폐합 되었으므로
         if ("A".equals(brCode)) {
             brCodeList.add("B");
         }
 
-        List<BranchDto> branchDtoList = branchRepository.findBranchByBrCodeOrYear(searchCondition);
+        List<BranchDto> branchDtoList = branchService.getBranchList(searchCondition);
 
         // 비어 있으면 없음
         if (branchDtoList.isEmpty()) {

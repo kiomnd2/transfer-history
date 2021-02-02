@@ -44,9 +44,7 @@ public class InitService {
     public void initTransferData() throws IOException {
 
         saveBranchInfo();
-
         saveAccountInfo();
-
         collectHistoryInfo();
 
     }

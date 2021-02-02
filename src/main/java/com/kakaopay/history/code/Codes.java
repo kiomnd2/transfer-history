@@ -2,7 +2,7 @@ package com.kakaopay.history.code;
 
 public enum Codes {
     S0000("000", "정상"),
-    E4040("404", "잘못된 요청");
+    E4040("404", "not found");
 
     public final String code;
 
