@@ -18,6 +18,6 @@ public class ApiResponse<T> {
     }
 
     public static <T> ApiResponse<T> fail (T body) {
-        return new ApiResponse<>(Codes.E2000.code, body);
+        return new ApiResponse<>(Codes.E4040.code, body);
     }
 }

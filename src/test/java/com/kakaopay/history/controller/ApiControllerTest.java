@@ -2,6 +2,7 @@ package com.kakaopay.history.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaopay.history.code.Codes;
+import com.kakaopay.history.exception.BranchCodeNotFoundException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -99,5 +100,20 @@ class ApiControllerTest {
                 .andExpect(jsonPath("body.brName").value("판교점"))
                 .andExpect(jsonPath("body.sumAmt").value(32597400));
 
+    }
+
+    @DisplayName("지점별 요청 지점코드를 B로 줬을때 404 에러가 발생해야 합니다")
+    @Test
+    void request_branch_and_fail() throws Exception {
+
+        ApiRequest request = new ApiRequest("B");
+
+        mockMvc.perform(post("/api/inquire/branch-amount")
+                .content(objectMapper.writeValueAsBytes(request))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("code").value(Codes.E4040.code))
+                .andExpect(jsonPath("body").value(new BranchCodeNotFoundException().getMessage()));
     }
 }
