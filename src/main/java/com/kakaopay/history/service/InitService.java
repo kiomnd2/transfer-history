@@ -3,6 +3,8 @@ package com.kakaopay.history.service;
 import com.kakaopay.history.domain.Account;
 import com.kakaopay.history.domain.Branch;
 import com.kakaopay.history.domain.History;
+import com.kakaopay.history.exception.NotFoundAccountException;
+import com.kakaopay.history.exception.NotFoundBranchException;
 import com.kakaopay.history.repository.account.AccountRepository;
 import com.kakaopay.history.repository.branch.BranchRepository;
 import com.kakaopay.history.repository.history.HistoryRepository;
@@ -60,7 +62,7 @@ public class InitService {
                     String[] splits = line.split(",");
                     //거래일자,계좌번호,거래번호,금액,수수료,취소여부
                     Account acc = accountRepository.findByAcctNo(splits[1])
-                            .orElseThrow(RuntimeException::new);// 계좌번호
+                            .orElseThrow(NotFoundAccountException::new);// 계좌번호
 
                     return History.builder()
                             .trDate(LocalDate.parse(splits[0], DateTimeFormatter.ofPattern("yyyyMMdd")))
@@ -84,7 +86,7 @@ public class InitService {
                 .map(line -> {
                     String[] splits = line.split(",");
                     Branch branch = branchRepository.findByBrCode(splits[2])
-                            .orElseThrow(RuntimeException::new);
+                            .orElseThrow(NotFoundBranchException::new);
 
                     return Account.builder()
                             .acctNo(splits[0])
