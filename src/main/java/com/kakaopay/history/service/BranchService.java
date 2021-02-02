@@ -18,6 +18,11 @@ public class BranchService {
     private final BranchRepository branchRepository;
 
 
+    /**
+     * 정렬된 지점 리스트 정보를 추출합니다.
+     * @param condition 동적 조회 조건 ( year, brCodeList )
+     * @return 지점정보 리스트
+     */
     @Transactional(readOnly = true)
     public List<BranchDto> getSortedBranchList(SearchCondition condition) {
         List<BranchDto> branchList = getBranchList(condition);
@@ -27,6 +32,11 @@ public class BranchService {
         return branchList;
     }
 
+    /**
+     * 지정 정보를 호출합니다.
+     * @param condition 동적 조회 조건 ( year, brCodeList )
+     * @return 지점 정보 리스트
+     */
     @Transactional(readOnly = true)
     public List<BranchDto> getBranchList(SearchCondition condition) {
         return branchRepository.findBranchByBrCodeOrYear(condition);

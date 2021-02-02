@@ -1,25 +1,17 @@
 package com.kakaopay.history.repository.branch;
 
-import com.kakaopay.history.domain.Branch;
-import com.kakaopay.history.domain.QAccount;
-import com.kakaopay.history.domain.QBranch;
-import com.kakaopay.history.domain.QHistory;
 import com.kakaopay.history.dto.BranchDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.StringUtils;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import static com.kakaopay.history.domain.QAccount.*;
-import static com.kakaopay.history.domain.QBranch.*;
-import static com.kakaopay.history.domain.QHistory.*;
-import static org.springframework.util.StringUtils.*;
+import static com.kakaopay.history.domain.QAccount.account;
+import static com.kakaopay.history.domain.QBranch.branch;
+import static com.kakaopay.history.domain.QHistory.history;
 
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)

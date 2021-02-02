@@ -1,6 +1,5 @@
 package com.kakaopay.history.repository.history;
 
-import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
 
 import java.util.List;

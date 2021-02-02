@@ -1,6 +1,5 @@
 package com.kakaopay.history.repository.history;
 
-import com.kakaopay.history.dto.AccountDto;
 import com.kakaopay.history.dto.AmountDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -10,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.kakaopay.history.domain.QAccount.*;
-import static com.kakaopay.history.domain.QHistory.*;
+import static com.kakaopay.history.domain.QAccount.account;
+import static com.kakaopay.history.domain.QHistory.history;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class HistoryRepositoryImpl implements HistoryRepositoryCustom{

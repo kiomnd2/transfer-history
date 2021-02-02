@@ -23,6 +23,10 @@ public class ApiController {
     private final InquireService inquireService;
 
 
+    /**
+     * 연도별 합계 금액이 가장 많은 고객을 추출합니다
+     * @return 고객 거래금액 합산 리스트 정보
+     */
     @PostMapping(value = "/api/inquire/amount",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +37,10 @@ public class ApiController {
         return ResponseEntity.ok().body(ApiResponse.success(sumAmount));
     }
 
+    /**
+     * 거래가 없는 고객을 추출합니다.
+     * @return 거래없는 고객 리스트 정보
+     */
     @PostMapping(value = "/api/inquire/no/deal/account",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,6 +52,10 @@ public class ApiController {
     }
 
 
+    /**
+     * 연도별 관리점별 합계를 추출합니다
+     * @return 연도별 지점 거래총액 리스트
+     */
     @PostMapping(value = "/api/inquire/branch/list",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -54,6 +66,11 @@ public class ApiController {
         return ResponseEntity.ok().body(ApiResponse.success(branchAmount));
     }
 
+    /**
+     * 해당 지점의 거래금액 추출 합니다
+     * @param apiRequest { "brCode": "" }
+     * @return 지점 거래정보
+     */
     @PostMapping(value = "/api/inquire/branch",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
