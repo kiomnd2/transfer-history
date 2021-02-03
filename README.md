@@ -2,7 +2,7 @@
 
 ### 1. 개발환경
 * spring-boot-2.4.2
-* java 11
+* java 8
 * h2 Database
 * lombok
 * Jpa
