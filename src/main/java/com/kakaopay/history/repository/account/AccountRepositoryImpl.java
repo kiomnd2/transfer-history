@@ -16,6 +16,12 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * 입력받은 계좌 번호에 포함되지않는 계좌를 찾습니다
+     * @param year 연도
+     * @param acctNo 계좌리스트
+     * @return 계좌 정보
+     */
     @Override
     public List<AccountDto> findByAcctNoNotIn(int year, List<String> acctNo) {
         return queryFactory

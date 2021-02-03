@@ -19,6 +19,11 @@ public class BranchRepositoryImpl implements BranchRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * 지점코드나 연도를 입력받아 지점을 추출합니다
+     * @param condition 연도 or 지점코드
+     * @return 지점정보 리스트
+     */
     @Override
     public List<BranchDto> findBranchByBrCodeOrYear(SearchCondition condition) {
         return queryFactory

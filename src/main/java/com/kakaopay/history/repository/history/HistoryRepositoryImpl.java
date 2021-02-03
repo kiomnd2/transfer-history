@@ -54,6 +54,10 @@ public class HistoryRepositoryImpl implements HistoryRepositoryCustom{
     }
 
 
+    /**
+     * 거래내역의 모든 연도 리스트를 추출합니다
+     * @return 연도 리ㅅ트
+     */
     @Override
     public List<Integer> findYearsList() {
         return queryFactory
